@@ -10,23 +10,6 @@ const errorHTML = path.join(__dirname, '../views/404.html');
 const PORT = process.env.PORT || 5000;
 
 
-// Loader
-function loader(app) {
-    app.use(express.urlencoded({extended: true}));
-    app.use(express.json());
-    app.use(router);
-    console.info('Express running!')
-    
-    app.use(function(req, res) {
-        res.status(404).sendFile(errorHTML);
-    })
-    
-    app.use(function(err, req, res) {
-        res.status(500).json({error: err.message});
-    })
-}
-
-
 // Route Handlers
 function getIndexView(req, res) {
     try {
@@ -55,6 +38,21 @@ function whoIAm(req, res) {
 router.get('/', getIndexView);
 router.get('/api/whoami', whoIAm)
 
+// Loader
+function loader(app) {
+    app.use(express.urlencoded({extended: true}));
+    app.use(express.json());
+    app.use(router);
+    console.info('Express running!')
+    
+    app.use(function(req, res) {
+        res.status(404).sendFile(errorHTML);
+    })
+    
+    app.use(function(err, req, res) {
+        res.status(500).json({error: err.message});
+    })
+}
 
 // Server
 function serverBootstrap() {
